@@ -5,7 +5,7 @@ use warnings;
 use Exporter 'import';
 our @EXPORT_OK = qw(CTX);
 
-our $VERSION = "0.02";
+our $VERSION = "0.03";
 
 sub CTX { $Canella::Context::CTX }
 
@@ -42,7 +42,11 @@ Canella - Simple Deploy Tool A La Cinnamon
         } $host;
     };
 
-    task deploy => sub {
+    task 'setup:all' => sub {
+        call 'setup:perl', 'setup:apache';
+    };
+
+    task syncfiles => sub {
         my $host = shift;
         remote {
             my $dir = get "deploy_to";
@@ -63,18 +67,29 @@ Canella - Simple Deploy Tool A La Cinnamon
         } $host;
     };
 
+    task deploy => sub {
+        call 'syncfiles', 'restart:app', 'restart:apache';
+    };
+
 =head1 INVOCATION
 
 Based on the config file shown in SYNOPSIS, you can invoke commands like so:
 
-    # Run setup on production servers
+    # Run perl setup on production servers
+    canella --config=/path/to/config.pl production setup:perl
+
+    # Run apache setup AND perl setup on production servers
     canella --config=/path/to/config.pl production setup:apache setup:perl
 
+    # Or, use the shortcut we defined: setup:all
+    canella --config=/path/to/config.pl production setup:all
+
     # Run deploy (sync files) on production servers
-    canella --config=/path/to/config.pl production sync
+    canella --config=/path/to/config.pl production syncfiles
 
     # Restart apps (controlled via daemontools)
     canella --config=/path/to/config.pl production restart:app
+
 
 =head1 DESCRIPTION
 
@@ -105,6 +120,16 @@ Cinnamon 0.22 does not support specifying multiple tasks in one invocation.
 With Canella you can do
 
     canella ... task1 task2 task2
+
+=item Supports recursive task calls
+
+While it's in their TODO, Cinnamon 0.22 doesn't support calling tasks
+recursively. Canella allows you to call other tasks from within a task:
+
+    task foo => sub {
+        call 'bar';
+    };
+    task bar => sub { ... }
 
 =item Concurrency works
 

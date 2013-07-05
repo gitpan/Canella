@@ -10,6 +10,7 @@ use Canella::Role;
 use Canella::Task;
 our $REMOTE;
 our @EXPORT = qw(
+    call
     current_task
     current_remote
     get
@@ -23,6 +24,18 @@ our @EXPORT = qw(
     set
     task
 );
+
+sub call (@) {
+    my $ctx = CTX;
+    my @tasks = map {
+        my $task_name = $_;
+        $ctx->get_task($task_name) ||
+            croakf("Could not find task '%s'", $task_name);
+    } @_;
+    foreach my $task (@tasks) {
+        $ctx->call_task($task);
+    }
+}
 
 sub current_remote {
     return CTX->stash('current_remote');
@@ -131,6 +144,10 @@ Canolla::DSL - DSL For Canolla File
     use Canolla::DSL;
 
 =head1 PROVIDED FUNCTIONS
+
+=head2 call $task_name [, $task_name ...]
+
+Executes the given task name
 
 =head2 current_task()
 
