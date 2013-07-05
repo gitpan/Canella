@@ -32,12 +32,12 @@ sub current_task {
     return CTX->stash('current_task');
 }
 
-sub get (@) {
-    CTX->parameters->get(@_);
+sub get ($) {
+    CTX->get_param(@_);
 }
 
-sub set (@) {
-    CTX->parameters->set(@_);
+sub set ($$) {
+    CTX->set_param(@_);
 }
 
 sub role ($@) {

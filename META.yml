@@ -27,7 +27,7 @@ no_index:
 provides:
   Canella:
     file: lib/Canella.pm
-    version: 0.01
+    version: 0.02
   Canella::BlockGuard:
     file: lib/Canella/BlockGuard.pm
     version: 0
@@ -73,6 +73,6 @@ resources:
   bugtracker: https://github.com/lestrrat/p5-Canella/issues
   homepage: https://github.com/lestrrat/p5-Canella
   repository: git://github.com/lestrrat/p5-Canella.git
-version: 0.01
+version: 0.02
 x_contributors:
   - 'Daisuke Maki <lestrrat+github@gmail.com>'
