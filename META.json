@@ -61,7 +61,7 @@
    "provides" : {
       "Canella" : {
          "file" : "lib/Canella.pm",
-         "version" : "0.03"
+         "version" : "0.04"
       },
       "Canella::BlockGuard" : {
          "file" : "lib/Canella/BlockGuard.pm"
@@ -105,7 +105,7 @@
          "web" : "https://github.com/lestrrat/p5-Canella"
       }
    },
-   "version" : "0.03",
+   "version" : "0.04",
    "x_contributors" : [
       "Daisuke Maki <lestrrat+github@gmail.com>"
    ]
